@@ -364,19 +364,42 @@ const [searchEmpId, setSearchEmpId] = useState("");
 const [startDate, setStartDate] = useState("");
 const [endDate, setEndDate] = useState("");
 
-const loadExportData = async () => {
+// const loadExportData = async () => {
 
-  // const res = await axios.get("http://localhost:5000/api/export-employee");
+//   // const res = await axios.get("http://localhost:5000/api/export-employee");
 
-  const API = process.env.NEXT_PUBLIC_API_URL;
+//   const API = process.env.NEXT_PUBLIC_API_URL;
 
-axios.get(`${API}/api/export-employee`)
+// axios.get(`${API}/api/export-employee`)
 
-  const rows = res.data?.empl_slsry_exp_2?.LDM_EMPLLABINFO_CHILD || [];
+//   const rows = res.data?.empl_slsry_exp_2?.LDM_EMPLLABINFO_CHILD || [];
 
-  setExportData(rows);
+//   setExportData(rows);
+
+// };
+
+  const loadExportData = async () => {
+
+  try {
+
+    const res = await axios.get(
+      `${API}/api/export-employee`
+    );
+
+    const rows =
+      res.data?.empl_slsry_exp_2?.LDM_EMPLLABINFO_CHILD || [];
+
+    setExportData(rows);
+
+  } catch (error) {
+
+    console.error(error);
+
+  }
 
 };
+
+
 
 const handleSelect = (row) => {
 
@@ -402,26 +425,46 @@ const handleChange = (field, value) => {
 
 };
 
+// const updateRecord = async () => {
+
+//   try {
+
+//     // await axios.post(
+//     //   "http://localhost:5000/api/import-employee",
+//     //   editData
+//     // );
+
+//     await axios.post(`${API}/api/import-employee`, data)
+
+//     alert("Record Updated");
+
+//   } catch (err) {
+
+//     console.error(err);
+
+//   }
+
+// };
+
 const updateRecord = async () => {
 
   try {
 
-    // await axios.post(
-    //   "http://localhost:5000/api/import-employee",
-    //   editData
-    // );
+    const res = await axios.post(
+      `${API}/api/import-employee`,
+      editData
+    );
 
-    await axios.post(`${API}/api/import-employee`, data)
+    console.log(res.data);
 
-    alert("Record Updated");
+  } catch (error) {
 
-  } catch (err) {
-
-    console.error(err);
+    console.error(error);
 
   }
 
 };
+
 
 const filteredData = exportData.filter((row) => {
 
