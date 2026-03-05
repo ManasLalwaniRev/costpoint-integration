@@ -364,6 +364,8 @@ const [searchEmpId, setSearchEmpId] = useState("");
 const [startDate, setStartDate] = useState("");
 const [endDate, setEndDate] = useState("");
 
+const API = process.env.NEXT_PUBLIC_API_URL;
+
 // const loadExportData = async () => {
 
 //   // const res = await axios.get("http://localhost:5000/api/export-employee");
