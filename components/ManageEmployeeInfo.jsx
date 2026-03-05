@@ -33,34 +33,34 @@ const EmployeeManagementSystem = () => {
             <button className="px-3 py-1 bg-[#5b9bd5] text-white flex items-center text-xs font-medium">
               <Plus size={14} className="mr-1" /> New
             </button>
-            <button className="px-3 py-1 bg-white border-l text-slate-600 hover:bg-slate-50 flex items-center text-xs">
+            {/* <button className="px-3 py-1 bg-white border-l text-slate-600 hover:bg-slate-50 flex items-center text-xs">
               Copy <ChevronRight size={12} className="ml-1 rotate-90" />
-            </button>
+            </button> */}
             <button className="px-3 py-1 bg-white border-l text-slate-600 hover:bg-slate-50 text-xs">
               Delete
             </button>
           </div>
           <div className="flex items-center space-x-1 px-3 border-x border-slate-200 text-slate-500">
-            <input type="checkbox" className="mr-2" />
-            <ChevronsLeft size={16} className="cursor-pointer hover:text-blue-500" />
-            <ChevronLeft size={16} className="cursor-pointer hover:text-blue-500" />
-            <span className="text-[11px] font-bold px-1 whitespace-nowrap">2 of 2 Existing</span>
-            <RotateCcw size={14} className="mx-1 cursor-pointer hover:text-blue-500" />
-            <ChevronRight size={16} className="cursor-pointer hover:text-blue-500" />
-            <ChevronsRight size={16} className="cursor-pointer hover:text-blue-500" />
+            {/* <input type="checkbox" className="mr-2" /> */}
+            {/* <ChevronsLeft size={16} className="cursor-pointer hover:text-blue-500" /> */}
+            {/* <ChevronLeft size={16} className="cursor-pointer hover:text-blue-500" /> */}
+            {/* <span className="text-[11px] font-bold px-1 whitespace-nowrap">2 of 2 Existing</span> */}
+            {/* <RotateCcw size={14} className="mx-1 cursor-pointer hover:text-blue-500" /> */}
+            {/* <ChevronRight size={16} className="cursor-pointer hover:text-blue-500" /> */}
+            {/* <ChevronsRight size={16} className="cursor-pointer hover:text-blue-500" /> */}
           </div>
           <div className="flex items-center space-x-2">
             <div className="relative">
               <input type="text" placeholder="Find" className="border rounded px-2 py-0.5 text-xs w-36 focus:outline-blue-400" />
             </div>
-            <button className="border rounded px-2 py-0.5 text-xs bg-white flex items-center text-slate-600">
+            {/* <button className="border rounded px-2 py-0.5 text-xs bg-white flex items-center text-slate-600">
               Query <ChevronRight size={12} className="ml-1 rotate-90" />
-            </button>
+            </button> */}
             <div className="flex border rounded overflow-hidden">
-                <button className="p-1 bg-[#5b9bd5] text-white border-r border-blue-400"><Layout size={14}/></button>
-                <button className="p-1 bg-white text-slate-500"><Maximize2 size={14}/></button>
+                {/* <button className="p-1 bg-[#5b9bd5] text-white border-r border-blue-400"><Layout size={14}/></button> */}
+                {/* <button className="p-1 bg-white text-slate-500"><Maximize2 size={14}/></button> */}
             </div>
-            <X size={18} className="text-slate-400 cursor-pointer hover:text-red-500" />
+            {/* <X size={18} className="text-slate-400 cursor-pointer hover:text-red-500" /> */}
           </div>
         </div>
       </header>
