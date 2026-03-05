@@ -89,7 +89,7 @@ export default function Home() {
         <button onClick={() => setActiveScreen("home")}>Home</button>
         
         <button onClick={() => setActiveScreen("import")}>
-          Salary Manager
+          Salary Info
         </button>
 
         {/* 2. Add the button for Employee Management */}
