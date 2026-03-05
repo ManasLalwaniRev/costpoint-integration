@@ -730,37 +730,119 @@
 // }
 
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-"use client";
+// "use client";
 
-import React, { useState } from "react";
-import axios from "axios";
+// import React, { useState } from "react";
+// import axios from "axios";
 
-export default function CostpointForm() {
+// export default function CostpointForm() {
 
-const [exportData, setExportData] = useState([]);
-const [selectedRow, setSelectedRow] = useState(null);
-const [editData, setEditData] = useState({});
+// const [exportData, setExportData] = useState([]);
+// const [selectedRow, setSelectedRow] = useState(null);
+// const [editData, setEditData] = useState({});
 
-const [searchEmpId, setSearchEmpId] = useState("");
-const [startDate, setStartDate] = useState("");
-const [endDate, setEndDate] = useState("");
+// const [searchEmpId, setSearchEmpId] = useState("");
+// const [startDate, setStartDate] = useState("");
+// const [endDate, setEndDate] = useState("");
 
-const API = process.env.NEXT_PUBLIC_API_URL;
+// const API = process.env.NEXT_PUBLIC_API_URL;
 
 
-/* ---------------- LOAD DATA ---------------- */
+// /* ---------------- LOAD DATA ---------------- */
+
+// // const loadExportData = async () => {
+
+// //   try {
+
+// //     const res = await axios.get(`${API}/api/export-employee`);
+
+// //     const rows =
+// //       res.data?.empl_slsry_exp_2?.LDM_EMPLLABINFO_CHILD || [];
+
+// //     setExportData(rows);
+
+// //   } catch (error) {
+
+// //     console.error(error);
+
+// //   }
+
+// // };
+
+// const [columns, setColumns] = useState([]);
 
 // const loadExportData = async () => {
-
 //   try {
-
 //     const res = await axios.get(`${API}/api/export-employee`);
 
 //     const rows =
 //       res.data?.empl_slsry_exp_2?.LDM_EMPLLABINFO_CHILD || [];
 
 //     setExportData(rows);
+
+//     // Build consistent column list
+//     const allCols = new Set();
+
+//     rows.forEach(row => {
+//       Object.keys(row).forEach(key => allCols.add(key));
+//     });
+
+//     setColumns(Array.from(allCols));
+
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
+
+
+// /* ---------------- SELECT ROW ---------------- */
+
+// const handleSelect = (row) => {
+
+//   setSelectedRow(row);
+
+//   console.log("Selected row:", row);
+
+//   setEditData({ ...row });
+
+// };
+
+
+// /* ---------------- EDIT HANDLER ---------------- */
+
+// const handleChange = (field, value) => {
+
+//   let updated = { ...editData, [field]: value };
+
+//   if (field === "HRLY_AMT" && value) {
+//     updated.ANNL_AMT = null;
+//   }
+
+//   if (field === "ANNL_AMT" && value) {
+//     updated.HRLY_AMT = null;
+//   }
+
+//   setEditData(updated);
+
+// };
+
+
+// /* ---------------- UPDATE RECORD ---------------- */
+
+// const updateRecord = async () => {
+
+//   try {
+
+//     const res = await axios.post(
+//       `${API}/api/import-employee`,
+//       editData
+//     );
+
+//     console.log(res.data);
+
+//     alert("Record Updated Successfully");
 
 //   } catch (error) {
 
@@ -770,291 +852,452 @@ const API = process.env.NEXT_PUBLIC_API_URL;
 
 // };
 
-const [columns, setColumns] = useState([]);
 
-const loadExportData = async () => {
-  try {
-    const res = await axios.get(`${API}/api/export-employee`);
+// /* ---------------- FILTER DATA ---------------- */
 
-    const rows =
-      res.data?.empl_slsry_exp_2?.LDM_EMPLLABINFO_CHILD || [];
+// const filteredData = exportData.filter((row) => {
 
-    setExportData(rows);
+//   const empMatch =
+//     !searchEmpId ||
+//     row.EMPL_ID.toString().includes(searchEmpId);
 
-    // Build consistent column list
-    const allCols = new Set();
+//   const effectDate = row.EFFECT_DT?.split("T")[0];
 
-    rows.forEach(row => {
-      Object.keys(row).forEach(key => allCols.add(key));
-    });
+//   const afterStart =
+//     !startDate || effectDate >= startDate;
 
-    setColumns(Array.from(allCols));
+//   const beforeEnd =
+//     !endDate || effectDate <= endDate;
 
-  } catch (error) {
-    console.error(error);
-  }
-};
+//   return empMatch && afterStart && beforeEnd;
 
+// });
 
-/* ---------------- SELECT ROW ---------------- */
 
-const handleSelect = (row) => {
+// /* ---------------- UI ---------------- */
 
-  setSelectedRow(row);
+// return (
 
-  console.log("Selected row:", row);
+// <div style={{padding:"30px"}}>
 
-  setEditData({ ...row });
+// <h2>Costpoint Employee Salary Manager</h2>
 
-};
+// <button onClick={loadExportData}>
+// Load Data
+// </button>
 
+// <br/><br/>
 
-/* ---------------- EDIT HANDLER ---------------- */
 
-const handleChange = (field, value) => {
+// {/* ---------------- SEARCH AREA ---------------- */}
 
-  let updated = { ...editData, [field]: value };
+// <div style={{display:"flex",gap:"20px"}}>
 
-  if (field === "HRLY_AMT" && value) {
-    updated.ANNL_AMT = null;
-  }
+// <div>
+// <label>Search EMPL_ID</label>
+// <br/>
+// <input
+// placeholder="Search EMPL_ID"
+// value={searchEmpId}
+// onChange={(e)=>setSearchEmpId(e.target.value)}
+// />
+// </div>
 
-  if (field === "ANNL_AMT" && value) {
-    updated.HRLY_AMT = null;
-  }
+// <div>
+// <label>Start Date</label>
+// <br/>
+// <input
+// type="date"
+// value={startDate}
+// onChange={(e)=>setStartDate(e.target.value)}
+// />
+// </div>
 
-  setEditData(updated);
+// <div>
+// <label>End Date</label>
+// <br/>
+// <input
+// type="date"
+// value={endDate}
+// onChange={(e)=>setEndDate(e.target.value)}
+// />
+// </div>
 
-};
+// </div>
 
+// <br/>
 
-/* ---------------- UPDATE RECORD ---------------- */
 
-const updateRecord = async () => {
+// {/* ---------------- TABLE ---------------- */}
 
-  try {
+// <div style={{overflowX:"auto"}}>
+// <table border="1" cellPadding="6" style={{width:"100%"}}>
 
-    const res = await axios.post(
-      `${API}/api/import-employee`,
-      editData
-    );
+// {/* <thead style={{background:"#eee"}}>
 
-    console.log(res.data);
+// <tr>
+// <th>EMPL_ID</th>
+// <th>NAME</th>
+// <th>EFFECT_DT</th>
+// <th>ORG_ID</th>
+// <th>ANNL_AMT</th>
+// <th>HRLY_AMT</th>
+// </tr>
 
-    alert("Record Updated Successfully");
+// </thead> */}
 
-  } catch (error) {
+// {/* <thead style={{background:"#eee"}}>
 
-    console.error(error);
+// <tr>
+// {exportData.length > 0 &&
+// Object.keys(exportData[0]).map((field)=>(
+// <th key={field}>{field}</th>
+// ))}
+// </tr>
 
-  }
+// </thead> */}
 
-};
+// <thead style={{ background: "#eee" }}>
+// <tr>
+// {columns.map((field) => (
+// <th key={field}>{field}</th>
+// ))}
+// </tr>
+// </thead>
 
+// <tbody>
 
-/* ---------------- FILTER DATA ---------------- */
+// {filteredData.map((row, index) => (
 
-const filteredData = exportData.filter((row) => {
+// <tr
+// key={index}
+// onClick={() => handleSelect(row)}
+// style={{
+// cursor: "pointer",
+// background: selectedRow === row ? "#dfefff" : "white"
+// }}
+// >
 
-  const empMatch =
-    !searchEmpId ||
-    row.EMPL_ID.toString().includes(searchEmpId);
+// {columns.map((field) => (
+// <td key={field}>
+// {row[field] ?? ""}
+// </td>
+// ))}
 
-  const effectDate = row.EFFECT_DT?.split("T")[0];
+// </tr>
 
-  const afterStart =
-    !startDate || effectDate >= startDate;
+// ))}
 
-  const beforeEnd =
-    !endDate || effectDate <= endDate;
+// </tbody>
 
-  return empMatch && afterStart && beforeEnd;
+// </table>
 
-});
+// </div>
+// {/* ---------------- EDIT PANEL ---------------- */}
 
+// {selectedRow && (
 
-/* ---------------- UI ---------------- */
+// <div
+// style={{
+// marginTop:"30px",
+// padding:"20px",
+// border:"1px solid #ccc",
+// borderRadius:"8px",
+// maxHeight:"500px",
+// overflowY:"auto"
+// }}
+// >
 
-return (
+// <h3>Edit Record</h3>
 
-<div style={{padding:"30px"}}>
+// <div
+// style={{
+// display:"grid",
+// gridTemplateColumns:"220px 220px",
+// gap:"12px"
+// }}
+// >
 
-<h2>Costpoint Employee Salary Manager</h2>
+// {Object.keys(editData).map((field)=>{
 
-<button onClick={loadExportData}>
-Load Data
-</button>
+// const isDisabled = field === "EMPL_ID";
 
-<br/><br/>
+// return (
 
+// <div key={field}>
 
-{/* ---------------- SEARCH AREA ---------------- */}
+// <label>{field}</label>
 
-<div style={{display:"flex",gap:"20px"}}>
+// <br/>
 
-<div>
-<label>Search EMPL_ID</label>
-<br/>
-<input
-placeholder="Search EMPL_ID"
-value={searchEmpId}
-onChange={(e)=>setSearchEmpId(e.target.value)}
-/>
-</div>
-
-<div>
-<label>Start Date</label>
-<br/>
-<input
-type="date"
-value={startDate}
-onChange={(e)=>setStartDate(e.target.value)}
-/>
-</div>
-
-<div>
-<label>End Date</label>
-<br/>
-<input
-type="date"
-value={endDate}
-onChange={(e)=>setEndDate(e.target.value)}
-/>
-</div>
-
-</div>
-
-<br/>
-
-
-{/* ---------------- TABLE ---------------- */}
-
-<div style={{overflowX:"auto"}}>
-<table border="1" cellPadding="6" style={{width:"100%"}}>
-
-{/* <thead style={{background:"#eee"}}>
-
-<tr>
-<th>EMPL_ID</th>
-<th>NAME</th>
-<th>EFFECT_DT</th>
-<th>ORG_ID</th>
-<th>ANNL_AMT</th>
-<th>HRLY_AMT</th>
-</tr>
-
-</thead> */}
-
-{/* <thead style={{background:"#eee"}}>
-
-<tr>
-{exportData.length > 0 &&
-Object.keys(exportData[0]).map((field)=>(
-<th key={field}>{field}</th>
-))}
-</tr>
-
-</thead> */}
-
-<thead style={{ background: "#eee" }}>
-<tr>
-{columns.map((field) => (
-<th key={field}>{field}</th>
-))}
-</tr>
-</thead>
-
-<tbody>
-
-{filteredData.map((row, index) => (
-
-<tr
-key={index}
-onClick={() => handleSelect(row)}
-style={{
-cursor: "pointer",
-background: selectedRow === row ? "#dfefff" : "white"
-}}
->
-
-{columns.map((field) => (
-<td key={field}>
-{row[field] ?? ""}
-</td>
-))}
-
-</tr>
-
-))}
-
-</tbody>
-
-</table>
-
-</div>
-{/* ---------------- EDIT PANEL ---------------- */}
-
-{selectedRow && (
-
-<div
-style={{
-marginTop:"30px",
-padding:"20px",
-border:"1px solid #ccc",
-borderRadius:"8px",
-maxHeight:"500px",
-overflowY:"auto"
-}}
->
-
-<h3>Edit Record</h3>
-
-<div
-style={{
-display:"grid",
-gridTemplateColumns:"220px 220px",
-gap:"12px"
-}}
->
-
-{Object.keys(editData).map((field)=>{
-
-const isDisabled = field === "EMPL_ID";
-
-return (
-
-<div key={field}>
-
-<label>{field}</label>
-
-<br/>
-
-<input
-value={editData[field] ?? ""}
-disabled={isDisabled}
-onChange={(e)=>handleChange(field,e.target.value)}
-/>
-
-</div>
-
-);
-
-})}
-
-</div>
-
-<br/>
-
-<button onClick={updateRecord}>
-Update Record
-</button>
-
-</div>
-
-)}
-
-</div>
-
-);
-
+// <input
+// value={editData[field] ?? ""}
+// disabled={isDisabled}
+// onChange={(e)=>handleChange(field,e.target.value)}
+// />
+
+// </div>
+
+// );
+
+// })}
+
+// </div>
+
+// <br/>
+
+// <button onClick={updateRecord}>
+// Update Record
+// </button>
+
+// </div>
+
+// )}
+
+// </div>
+
+// );
+
+// }
+
+
+"use client";
+
+import React, { useState } from "react";
+import axios from "axios";
+// Added icons for a consistent professional look
+import { 
+  Database, 
+  Search, 
+  ArrowLeftRight, 
+  Save, 
+  Calendar, 
+  UserCircle,
+  ExternalLink 
+} from "lucide-react";
+
+export default function CostpointForm() {
+  const [exportData, setExportData] = useState([]);
+  const [selectedRow, setSelectedRow] = useState(null);
+  const [editData, setEditData] = useState({});
+  const [columns, setColumns] = useState([]);
+
+  const [searchEmpId, setSearchEmpId] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+
+  const API = process.env.NEXT_PUBLIC_API_URL;
+
+  /* ---------------- LOAD DATA ---------------- */
+  const loadExportData = async () => {
+    try {
+      const res = await axios.get(`${API}/api/export-employee`);
+      const rows = res.data?.empl_slsry_exp_2?.LDM_EMPLLABINFO_CHILD || [];
+      setExportData(rows);
+
+      const allCols = new Set();
+      rows.forEach(row => {
+        Object.keys(row).forEach(key => allCols.add(key));
+      });
+      setColumns(Array.from(allCols));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  /* ---------------- SELECT ROW ---------------- */
+  const handleSelect = (row) => {
+    setSelectedRow(row);
+    setEditData({ ...row });
+  };
+
+  /* ---------------- EDIT HANDLER ---------------- */
+  const handleChange = (field, value) => {
+    let updated = { ...editData, [field]: value };
+    if (field === "HRLY_AMT" && value) updated.ANNL_AMT = null;
+    if (field === "ANNL_AMT" && value) updated.HRLY_AMT = null;
+    setEditData(updated);
+  };
+
+  /* ---------------- UPDATE RECORD ---------------- */
+  const updateRecord = async () => {
+    try {
+      const res = await axios.post(`${API}/api/import-employee`, editData);
+      alert("Record Updated Successfully");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  /* ---------------- FILTER DATA ---------------- */
+  const filteredData = exportData.filter((row) => {
+    const empMatch = !searchEmpId || row.EMPL_ID?.toString().includes(searchEmpId);
+    const effectDate = row.EFFECT_DT?.split("T")[0];
+    const afterStart = !startDate || effectDate >= startDate;
+    const beforeEnd = !endDate || effectDate <= endDate;
+    return empMatch && afterStart && beforeEnd;
+  });
+
+  return (
+    <div className="min-h-screen bg-slate-50 p-6 font-sans text-slate-700">
+      
+      {/* --- TOP NAVIGATION BAR --- */}
+      <nav className="flex items-center justify-between mb-6 bg-white p-4 rounded-lg shadow-sm border border-slate-200">
+        <div className="flex items-center space-x-2">
+          <Database className="text-blue-600" size={24} />
+          <h1 className="text-xl font-bold text-slate-800">Salary Manager</h1>
+        </div>
+        
+        <div className="flex items-center space-x-4">
+          <a 
+            href="/manage-employee" // Adjust this path to your actual filename/route
+            className="flex items-center space-x-1 text-blue-600 hover:text-blue-800 font-medium text-sm transition-colors"
+          >
+            <span>Manage Employee Info</span>
+            <ExternalLink size={14} />
+          </a>
+          <button 
+            onClick={loadExportData}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-all shadow-sm flex items-center"
+          >
+            <ArrowLeftRight size={16} className="mr-2" />
+            Load Latest Data
+          </button>
+        </div>
+      </nav>
+
+      {/* --- FILTER SECTION --- */}
+      <div className="bg-white p-4 rounded-lg border border-slate-200 shadow-sm mb-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="space-y-1">
+          <label className="text-xs font-bold text-slate-500 uppercase flex items-center">
+            <UserCircle size={14} className="mr-1" /> Search Employee ID
+          </label>
+          <div className="relative">
+            <Search className="absolute left-3 top-2.5 text-slate-400" size={16} />
+            <input
+              placeholder="Ex: 10002..."
+              className="w-full pl-10 pr-3 py-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400 outline-none border-slate-300"
+              value={searchEmpId}
+              onChange={(e) => setSearchEmpId(e.target.value)}
+            />
+          </div>
+        </div>
+
+        <div className="space-y-1">
+          <label className="text-xs font-bold text-slate-500 uppercase flex items-center">
+            <Calendar size={14} className="mr-1" /> Effective After
+          </label>
+          <input
+            type="date"
+            className="w-full px-3 py-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400 outline-none border-slate-300"
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
+          />
+        </div>
+
+        <div className="space-y-1">
+          <label className="text-xs font-bold text-slate-500 uppercase flex items-center">
+            <Calendar size={14} className="mr-1" /> Effective Before
+          </label>
+          <input
+            type="date"
+            className="w-full px-3 py-2 border rounded-md text-sm focus:ring-2 focus:ring-blue-400 outline-none border-slate-300"
+            value={endDate}
+            onChange={(e) => setEndDate(e.target.value)}
+          />
+        </div>
+      </div>
+
+      {/* --- DATA TABLE --- */}
+      <div className="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden mb-8">
+        <div className="overflow-x-auto max-h-[400px]">
+          <table className="w-full text-left border-collapse">
+            <thead className="bg-slate-100 sticky top-0 z-10 border-b border-slate-200">
+              <tr>
+                {columns.map((field) => (
+                  <th key={field} className="px-4 py-3 text-[11px] font-bold text-slate-600 uppercase tracking-wider whitespace-nowrap">
+                    {field.replace(/_/g, ' ')}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100">
+              {filteredData.map((row, index) => (
+                <tr
+                  key={index}
+                  onClick={() => handleSelect(row)}
+                  className={`cursor-pointer transition-colors ${
+                    selectedRow === row ? "bg-blue-50" : "hover:bg-slate-50"
+                  }`}
+                >
+                  {columns.map((field) => (
+                    <td key={field} className="px-4 py-3 text-xs text-slate-600 whitespace-nowrap">
+                      {row[field] ?? "—"}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+              {filteredData.length === 0 && (
+                <tr>
+                  <td colSpan={columns.length || 1} className="px-4 py-10 text-center text-slate-400 italic">
+                    No records found. Click "Load Data" or adjust filters.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* --- EDITING PANEL --- */}
+      {selectedRow && (
+        <div className="bg-white border-2 border-blue-200 rounded-xl shadow-xl overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-300">
+          <div className="bg-blue-50 px-6 py-4 border-b border-blue-100 flex justify-between items-center">
+            <h3 className="font-bold text-blue-800 flex items-center">
+              <ArrowLeftRight size={18} className="mr-2" />
+              Edit Employee Record: <span className="ml-2 text-blue-600 font-normal">{selectedRow.NAME || selectedRow.EMPL_ID}</span>
+            </h3>
+            <button onClick={() => setSelectedRow(null)} className="text-blue-400 hover:text-blue-600">
+               <X size={20} />
+            </button>
+          </div>
+
+          <div className="p-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-h-[400px] overflow-y-auto pr-2">
+              {Object.keys(editData).map((field) => {
+                const isDisabled = field === "EMPL_ID";
+                return (
+                  <div key={field} className="space-y-1">
+                    <label className="text-[10px] font-bold text-slate-500 uppercase tracking-tight">
+                      {field.replace(/_/g, ' ')}
+                    </label>
+                    <input
+                      className={`w-full px-3 py-1.5 border rounded text-xs outline-none transition-all ${
+                        isDisabled 
+                        ? "bg-slate-50 text-slate-400 border-slate-200 cursor-not-allowed" 
+                        : "border-slate-300 focus:border-blue-400 focus:ring-1 focus:ring-blue-100"
+                      }`}
+                      value={editData[field] ?? ""}
+                      disabled={isDisabled}
+                      onChange={(e) => handleChange(field, e.target.value)}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="mt-8 flex justify-end border-t pt-6">
+              <button 
+                onClick={updateRecord}
+                className="bg-green-600 hover:bg-green-700 text-white px-8 py-2.5 rounded-lg text-sm font-bold shadow-lg flex items-center transition-all transform hover:-translate-y-0.5"
+              >
+                <Save size={18} className="mr-2" />
+                Update Record
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 }
