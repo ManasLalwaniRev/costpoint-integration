@@ -21,36 +21,84 @@
 //   );
 // }
 
+
+/// Deployed //
+
+
+// "use client";
+
+// import React, { useState } from "react";
+
+// import CostpointForm from "@/components/CostpointForm";
+
+// export default function Home() {
+
+//   const [activeScreen, setActiveScreen] = useState("home");
+
+//   return (
+//     <div style={{padding:"30px"}}>
+
+//       <h1>Costpoint Integration</h1>
+
+//       {/* Navigation Buttons */}
+//       <div style={{marginBottom:"20px"}}>
+
+//         <button onClick={() => setActiveScreen("home")}>
+//           Home
+//         </button>
+
+//         <button onClick={() => setActiveScreen("import")}>
+//           Import Employee
+//         </button>
+
+//       </div>
+
+//       {/* Screen Switch */}
+
+//       {activeScreen === "home" && (
+//         <div>
+//           <h2>Welcome</h2>
+//           <p>Select an option above.</p>
+//         </div>
+//       )}
+
+//       {activeScreen === "import" && (
+//         <CostpointForm />
+//       )}
+
+//     </div>
+//   );
+// }
+
 "use client";
 
 import React, { useState } from "react";
-
 import CostpointForm from "@/components/CostpointForm";
+// 1. Import your new component
+import ManageEmployeeInfo from "@/components/ManageEmployeeInfo"; 
 
 export default function Home() {
-
   const [activeScreen, setActiveScreen] = useState("home");
 
   return (
     <div style={{padding:"30px"}}>
-
       <h1>Costpoint Integration</h1>
 
       {/* Navigation Buttons */}
-      <div style={{marginBottom:"20px"}}>
-
-        <button onClick={() => setActiveScreen("home")}>
-          Home
-        </button>
-
+      <div style={{marginBottom:"20px", display:"flex", gap:"10px"}}>
+        <button onClick={() => setActiveScreen("home")}>Home</button>
+        
         <button onClick={() => setActiveScreen("import")}>
-          Import Employee
+          Salary Manager
         </button>
 
+        {/* 2. Add the button for Employee Management */}
+        <button onClick={() => setActiveScreen("manage")}>
+          Manage Employee Info
+        </button>
       </div>
 
       {/* Screen Switch */}
-
       {activeScreen === "home" && (
         <div>
           <h2>Welcome</h2>
@@ -58,11 +106,10 @@ export default function Home() {
         </div>
       )}
 
-      {activeScreen === "import" && (
-        <CostpointForm />
-      )}
+      {activeScreen === "import" && <CostpointForm />}
 
+      {/* 3. Render the component when state is "manage" */}
+      {activeScreen === "manage" && <ManageEmployeeInfo />}
     </div>
   );
 }
-
