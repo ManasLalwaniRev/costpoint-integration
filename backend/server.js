@@ -54,7 +54,10 @@ const costpointRoutes = require("./routes/costpointRoutes");
 
 const app = express();
 
-app.use(cors());
+// app.use(cors());
+app.use(cors({
+  origin: "*"
+}));
 app.use(express.json());
 
 // Costpoint routes

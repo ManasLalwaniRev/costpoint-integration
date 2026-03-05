@@ -366,7 +366,11 @@ const [endDate, setEndDate] = useState("");
 
 const loadExportData = async () => {
 
-  const res = await axios.get("http://localhost:5000/api/export-employee");
+  // const res = await axios.get("http://localhost:5000/api/export-employee");
+
+  const API = process.env.NEXT_PUBLIC_API_URL;
+
+axios.get(`${API}/api/export-employee`)
 
   const rows = res.data?.empl_slsry_exp_2?.LDM_EMPLLABINFO_CHILD || [];
 
@@ -402,10 +406,12 @@ const updateRecord = async () => {
 
   try {
 
-    await axios.post(
-      "http://localhost:5000/api/import-employee",
-      editData
-    );
+    // await axios.post(
+    //   "http://localhost:5000/api/import-employee",
+    //   editData
+    // );
+
+    await axios.post(`${API}/api/import-employee`, data)
 
     alert("Record Updated");
 
