@@ -401,14 +401,68 @@ const API = process.env.NEXT_PUBLIC_API_URL;
 
 };
 
+const ALL_FIELDS = [
+"EMPL_ID",
+"LAST_FIRST_NAME",
+"EFFECT_DT",
+"END_DT",
+"ORG_ID",
+"SEC_ORG_ID",
+"GENL_LAB_CAT_CD",
+"WORK_STATE_CD",
+"WORK_YR_HRS_NO",
+"EMPL_CLASS_CD",
+"S_EMPL_STATUS_CD",
+"S_EMPL_TYPE_CD",
+"S_HRLY_SAL_CD",
+"ANNL_AMT",
+"HRLY_AMT",
+"SAL_AMT",
+"MERIT_PCT_RT",
+"PCT_INCR_RT",
+"PROMO_PCT_RT",
+"STD_EFFECT_AMT",
+"STD_EST_HRS",
+"EXMPT_FL",
+"CORP_OFCR_FL",
+"VARIABLE_HRS_FL",
+"HIRE_DT_FL",
+"TERM_DT_FL",
+"SEASON_EMPL_FL",
+"CA_REMOTE_WORKER",
+"CRNCY_NAME",
+"TRN_CRNCY_CD"
+];
 
+// const handleSelect = (row) => {
+
+//   setSelectedRow(row);
+//   // setEditData(row);  
+//     const filledRow = {};
+
+//     ALL_FIELDS.forEach(field => {
+//       filledRow[field] = row[field] ?? "";
+//     });
+
+//     setEditData(filledRow);
+
+// };
 
 const handleSelect = (row) => {
 
   setSelectedRow(row);
-  setEditData(row);
 
+  const filledRow = { ...row };
+
+  ALL_FIELDS.forEach(field => {
+    if (!(field in filledRow)) {
+      filledRow[field] = "";
+    }
+  });
+
+  setEditData(filledRow);
 };
+
 
 const handleChange = (field, value) => {
 
@@ -530,6 +584,16 @@ onChange={(e)=>setEndDate(e.target.value)}
 
 <table border="1" cellPadding="6" style={{width:"100%"}}>
 
+<div
+style={{
+marginTop:"30px",
+padding:"20px",
+border:"1px solid #ccc",
+borderRadius:"8px",
+maxHeight:"500px",
+overflowY:"auto"
+}}
+></div>
 <thead style={{background:"#eee"}}>
 
 <tr>
