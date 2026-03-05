@@ -751,10 +751,29 @@ const API = process.env.NEXT_PUBLIC_API_URL;
 
 /* ---------------- LOAD DATA ---------------- */
 
+// const loadExportData = async () => {
+
+//   try {
+
+//     const res = await axios.get(`${API}/api/export-employee`);
+
+//     const rows =
+//       res.data?.empl_slsry_exp_2?.LDM_EMPLLABINFO_CHILD || [];
+
+//     setExportData(rows);
+
+//   } catch (error) {
+
+//     console.error(error);
+
+//   }
+
+// };
+
+const [columns, setColumns] = useState([]);
+
 const loadExportData = async () => {
-
   try {
-
     const res = await axios.get(`${API}/api/export-employee`);
 
     const rows =
@@ -762,12 +781,18 @@ const loadExportData = async () => {
 
     setExportData(rows);
 
+    // Build consistent column list
+    const allCols = new Set();
+
+    rows.forEach(row => {
+      Object.keys(row).forEach(key => allCols.add(key));
+    });
+
+    setColumns(Array.from(allCols));
+
   } catch (error) {
-
     console.error(error);
-
   }
-
 };
 
 
@@ -920,7 +945,7 @@ onChange={(e)=>setEndDate(e.target.value)}
 
 </thead> */}
 
-<thead style={{background:"#eee"}}>
+{/* <thead style={{background:"#eee"}}>
 
 <tr>
 {exportData.length > 0 &&
@@ -929,37 +954,34 @@ Object.keys(exportData[0]).map((field)=>(
 ))}
 </tr>
 
-</thead>
+</thead> */}
 
+<thead style={{ background: "#eee" }}>
+<tr>
+{columns.map((field) => (
+<th key={field}>{field}</th>
+))}
+</tr>
+</thead>
 
 <tbody>
 
-{filteredData.map((row,index)=>(
+{filteredData.map((row, index) => (
 
 <tr
 key={index}
-onClick={()=>handleSelect(row)}
+onClick={() => handleSelect(row)}
 style={{
-cursor:"pointer",
-background:selectedRow===row?"#dfefff":"white"
+cursor: "pointer",
+background: selectedRow === row ? "#dfefff" : "white"
 }}
 >
 
-{/* <td>{row.EMPL_ID}</td>
-<td>{row.LAST_FIRST_NAME}</td>
-<td>{row.EFFECT_DT?.split("T")[0]}</td>
-<td>{row.ORG_ID}</td>
-<td>{row.ANNL_AMT}</td>
-<td>{row.HRLY_AMT}</td> */}
-
-{Object.keys(row).map((field)=>(
+{columns.map((field) => (
 <td key={field}>
-{field === "EFFECT_DT"
-? row[field]?.split("T")[0]
-: row[field]}
+{row[field] ?? ""}
 </td>
 ))}
-
 
 </tr>
 
