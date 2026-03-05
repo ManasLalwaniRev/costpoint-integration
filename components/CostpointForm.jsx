@@ -584,7 +584,7 @@ borderRadius:"8px"
 
 <h3>Edit Record</h3>
 
-<div style={{display:"grid",gridTemplateColumns:"200px 200px",gap:"15px"}}>
+{/* <div style={{display:"grid",gridTemplateColumns:"200px 200px",gap:"15px"}}>
 
 <label>EMPL_ID</label>
 <input value={editData.EMPL_ID || ""} disabled/>
@@ -613,7 +613,41 @@ value={editData.HRLY_AMT || ""}
 onChange={(e)=>handleChange("HRLY_AMT",e.target.value)}
 />
 
+</div> */}
+
+
+<div
+style={{
+display:"grid",
+gridTemplateColumns:"220px 220px",
+gap:"12px"
+}}
+>
+
+{Object.keys(editData).map((field)=>{
+
+const isDisabled = field === "EMPL_ID";
+
+return (
+
+<div key={field}>
+
+<label>{field}</label>
+
+<input
+value={editData[field] ?? ""}
+disabled={isDisabled}
+onChange={(e)=>handleChange(field,e.target.value)}
+/>
+
 </div>
+
+);
+
+})}
+
+</div>
+
 
 <br/>
 
