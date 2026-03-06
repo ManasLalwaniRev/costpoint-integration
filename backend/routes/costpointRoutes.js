@@ -21,13 +21,16 @@ const router = express.Router();
 
 const { 
   importEmployee,
-  exportEmployee 
+  exportEmployee,
+  fetchEmployeeManagementInfo
 } = require("../services/costpointImport");
 
 
-const { fetchEmployeeManagementInfo } = require("../services/costpointImport");
+// const { fetchEmployeeManagementInfo } = require("../services/costpointImport");
 
 // Add this route
+
+
 router.get("/manage-employee-data", async (req, res) => {
   try {
     const result = await fetchEmployeeManagementInfo();
