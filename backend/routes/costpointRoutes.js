@@ -25,6 +25,21 @@ const {
 } = require("../services/costpointImport");
 
 
+const { fetchEmployeeManagementInfo } = require("../services/costpointImport");
+
+// Add this route
+router.get("/manage-employee-data", async (req, res) => {
+  try {
+    const result = await fetchEmployeeManagementInfo();
+    res.json(result);
+  } catch (err) {
+    console.error("Fetch Error:", err);
+    res.status(500).json({ error: "Failed to fetch employee management data" });
+  }
+});
+
+
+
 // Import Employee
 router.post("/import-employee", async (req, res) => {
   try {

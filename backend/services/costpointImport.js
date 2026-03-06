@@ -10,6 +10,8 @@ const COSTPOINT_URL =
   const COSTPOINT_EXPORT_URL =
 "https://REVOLVEFINTECH-cpd.deltekenterprise.com/cpweb/cprestfulws/cpwwsgenericexport.cps?system=REVOLVEFINTECHDEV&company=1";
 
+const COSTPOINT_MANAGE_EML_INFO_URL = "https://REVOLVEFINTECH-cpd.deltekenterprise.com/cpweb/cprestfulws/cpwwsgenericexport.cps?system=REVOLVEFINTECHDEV&company=1";
+
 /**
  * Safely return value or default
  */
@@ -243,6 +245,33 @@ async function importEmployee(data) {
 
     throw new Error("Costpoint Export Failed");
   }
+}       
+
+    async function fetchEmployeeManagementInfo() {
+  try {
+    // This XML filter might need to be adjusted based on the specific 
+    // Data Integration ID set up in your Deltek environment
+    const xmlRequest = `<?xml version='1.0' encoding='UTF-8'?>
+          <filter id='empl_info' xmlns='http://www.deltek.com/enterprise/integration/query/empl_info'>
+                  <LDMEINFO_EMPL/>
+          </filter>`;
+
+    const response = await axios.post(COSTPOINT_MANAGE_EML_INFO_URL, xmlRequest, {
+      headers: {
+        "Content-Type": "application/xml"
+      },
+      auth: {
+        username: process.env.CP_USERNAME,
+        password: process.env.CP_PASSWORD
+      },
+      timeout: 20000
+    });
+
+    return await xml2js.parseStringPromise(response.data, { explicitArray: false });
+  } catch (error) {
+    console.error("Fetch Employee Info Error:", error.message);
+    throw new Error("Failed to fetch Employee Management Info");
+  }
 }
 
-module.exports = { importEmployee, exportEmployee };
+module.exports = { importEmployee, exportEmployee, fetchEmployeeManagementInfo };
